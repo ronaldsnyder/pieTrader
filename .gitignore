@@ -1,0 +1,6 @@
+#ignore these
+*.db
+*.pyc
+pieTrader.config
+test.py
+.idea
