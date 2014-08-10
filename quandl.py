@@ -38,7 +38,6 @@ class Quandl:
         return stock_history
 
     def get_symbols(self):
-        #needs to look at 3 pages.
         all_symbols = []
         for page in range(1, 12):
             symbols_url = "http://www.quandl.com/api/v2/datasets.json?query=*&source_code=WIKI&per_page=300&page=%s%s" \
