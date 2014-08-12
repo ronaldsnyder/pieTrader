@@ -33,7 +33,7 @@ class DataHandler:
     @staticmethod
     def update_stock_table(symbol):
         qdl = quandl.Quandl()
-        stock = qdl.get_stock(symbol)
+        stock = qdl.get_most_recent(symbol)
         print (stock[0], stock[1], stock[2], stock[3], stock[4], stock[5], stock[6], stock[7], stock[8], stock[9],
                stock[10], stock[11], stock[12])
         conn = sqlite3.connect('data/pietrader.db')
@@ -63,6 +63,15 @@ class DataHandler:
             print "Adding data for: %s" % symbol
             #stock = qdl.get_stock(symbol)
             DataHandler.update_stock_table(symbol)
+
+
+    def set_favorites(self):
+        pass
+
+    def get_favorites(self):
+        pass
+
+
 
 
 

@@ -18,7 +18,7 @@ class Quandl:
                   Get an API key at http://www.quandl.com/users/sign_up"
             self.token = ''
 
-    def get_stock(self, code):
+    def get_most_recent(self, code):
         stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?sort_order=desc%s" \
                     % (code, self.token)
 
@@ -44,6 +44,7 @@ class Quandl:
                           % (page, self.token)
             symbol_lookup = urllib.urlopen(symbols_url)
             symbols = json.loads(symbol_lookup.read())
+            print symbols
             symbols = symbols["docs"]
 
 
