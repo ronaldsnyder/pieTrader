@@ -18,23 +18,31 @@ class Quandl:
                   Get an API key at http://www.quandl.com/users/sign_up"
             self.token = ''
 
-    def get_most_recent(self, code):
+    #returns a dictionary of the most recent stock data
+    def get_most_recent(self, symbol):
         stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?sort_order=desc%s" \
-                    % (code, self.token)
-
+                    % (symbol, self.token)
         stock_json = urllib.urlopen(stock_url)
         stock_data = json.loads(stock_json.read())
-        stock_data = stock_data["data"]
-        stock_data = stock_data[0]
-        return stock_data
+        keys = stock_data['column_names']
+        values = stock_data["data"][0]
+        stock_dict = dict(zip(keys, values))
+        stock_dict['symbol'] = symbol
+        return stock_dict
 
-    def get_stock_by_date(self, stock, start_date, end_date):
+    #function returns a list of dictionaries of stock data
+    def get_stock_by_date(self, symbol, start_date, end_date):
         stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?trim_start=%s&trim_end=%s%s" \
-                    % (stock, start_date, end_date, self.token)
-
+                    % (symbol, start_date, end_date, self.token)
         stock_json = urllib.urlopen(stock_url)
-        stock_history = json.loads(stock_json.read())
-        stock_history = stock_history["data"]
+        stock_data = json.loads(stock_json.read())
+        keys = stock_data['column_names']
+        values = stock_data["data"]
+        stock_history = []
+        for value in values:
+            temp = dict(zip(keys, value))
+            temp['symbol'] = symbol
+            stock_history.append(temp)
         return stock_history
 
     def get_symbols(self):
