@@ -15,7 +15,7 @@ class DataHandler:
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
         c.execute('''CREATE TABLE stock
-                    (symbol, date, open, high, low, close, volume, ex_divident, split_ration,
+                    (symbol, date, open, high, low, close, volume, ex_dividend, split_ration,
                     adj_open, adj_high, adj_low, adj_close, adj_volume)''')
         conn.close()
 
@@ -30,21 +30,17 @@ class DataHandler:
     def get_last_update_date(self):
         pass
 
-    #method needs changed to use dictionary
     @staticmethod
-    def update_stock_table(*stock):
-        #debugging print statement below, needs removed
-        #print (stock[0], stock[1], stock[2], stock[3], stock[4], stock[5], stock[6], stock[7], stock[8], stock[9],
-              # stock[10], stock[11], stock[12])
-        print stock
+    def update_stock_table(**kwargs):
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
         c.execute('''INSERT INTO stock
-                    (symbol, date, open, high, low, close, volume, ex_divident, split_ration,
+                    (symbol, date, open, high, low, close, volume, ex_dividend, split_ration,
                     adj_open, adj_high, adj_low, adj_close, adj_volume) VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                    (stock[0], stock[1], stock[2], stock[3], stock[4], stock[5], stock[6], stock[7], stock[8],
-                     stock[9], stock[10], stock[11], stock[12]))
+                    (kwargs["symbol"], kwargs["Date"], kwargs["Open"], kwargs["High"], kwargs["Low"], kwargs["Close"],
+                     kwargs["Volume"], kwargs["Ex-Dividend"], kwargs["Split Ratio"], kwargs["Adj. Open"],
+                     kwargs["Adj. High"], kwargs["Adj. Low"], kwargs["Adj. Close"], kwargs["Adj. Volume"]))
         conn.commit()
         conn.close()
 

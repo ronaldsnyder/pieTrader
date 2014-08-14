@@ -8,7 +8,6 @@ from ConfigParser import SafeConfigParser
 class Quandl:
 
     def __init__(self):
-        #read config file to get token and remove from this class
         parser = SafeConfigParser()
         parser.read('pieTrader.config')
         if parser.has_section('quandl') & parser.has_option('quandl', 'token'):
@@ -52,13 +51,9 @@ class Quandl:
                           % (page, self.token)
             symbol_lookup = urllib.urlopen(symbols_url)
             symbols = json.loads(symbol_lookup.read())
-            print symbols
             symbols = symbols["docs"]
-
-
             for symbol in symbols:
                 all_symbols.append(symbol["code"])
-
         return all_symbols
 
 
