@@ -14,7 +14,7 @@ class DataHandler:
     def create_stock_table():
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        c.execute('''CREATE TABLE stock
+        c.execute('''CREATE TABLE IF NOT EXISTS stock
                     (symbol, date, open, high, low, close, volume, ex_dividend, split_ration,
                     adj_open, adj_high, adj_low, adj_close, adj_volume)''')
         conn.close()
@@ -23,11 +23,9 @@ class DataHandler:
     def drop_stock_table():
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        c.execute('''DROP TABLE stock''')
+        c.execute('''DROP TABLE iF EXISTS stock''')
         conn.commit()
         conn.close()
-
-
 
     def get_last_update_date(self):
         pass
@@ -50,7 +48,7 @@ class DataHandler:
     def create_symbol_table():
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        c.execute('''CREATE TABLE symbols(symbol_id integer primary key autoincrement, symbol)''')
+        c.execute('''CREATE TABLE IF NOT EXISTS symbols(symbol_id integer primary key autoincrement, symbol)''')
         conn.commit()
         conn.close()
 
@@ -58,15 +56,17 @@ class DataHandler:
     def drop_symbol_table():
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        c.execute('''DROP TABLE symbols''')
+        c.execute('''DROP TABLE IF EXISTS symbols''')
         conn.commit()
         conn.close()
 
     @staticmethod
-    def update_symbols_table(symbol):
+    def update_symbols_table(*symbols):
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        c.execute('INSERT INTO symbols (symbol) VALUES (?)', (symbol,))
+        for symbol in symbols:
+            print "Adding symbol: %s" % symbol
+            c.execute('INSERT INTO symbols (symbol) VALUES (?)', (symbol,))
         conn.commit()
         conn.close
 
@@ -74,7 +74,7 @@ class DataHandler:
     def get_data_test(code):
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        results = c.execute('''SELECT * FROM stock where symbol = ?''', (code,))
+        results = c.execute('''SELECT * FROM symbols where symbol = ?''', (code,))
         print results.fetchone()
 
     @staticmethod
@@ -88,23 +88,16 @@ class DataHandler:
         qdl = quandl.Quandl()
         symbols = qdl.get_symbols()
         print "Adding the symbols to the database..."
-        for symbol in symbols:
-            print "Adding symbol: %s" % symbol
-            DataHandler.update_symbols_table(symbol)
+        DataHandler.update_symbols_table(*symbols)
+
 
     @staticmethod
     def create_favorite_table():
         conn = sqlite3.connect('data/pietrader.db')
         c = conn.cursor()
-        c.execute('''CREATE TABLE favorites
+        c.execute('''CREATE TABLE IF NOT EXISTS favorites
                     (favorite_id integer primary key autoincrement, symbol, name)''')
         conn.close()
-
-    def set_favorites(self):
-        pass
-
-    def get_favorites(self):
-        pass
 
 
 
