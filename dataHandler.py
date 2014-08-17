@@ -31,7 +31,9 @@ class DataHandler:
         self.conn.commit()
 
     def get_last_update_date(self):
-        pass
+        results = self.c.execute('''SELECT MAX(date) from stock''')
+        date = results.fetchone()
+        return date[0]
 
     def update_stock_table(self, **kwargs):
         print "Adding stock data for: %s %s" % (kwargs["symbol"], kwargs["Date"])
@@ -83,7 +85,7 @@ class DataHandler:
         print "Retrieving stock info..."
         print "This may be a good time to read the documentation..."
         for symbol in symbols:
-            stock_data = self.qdl.get_stock_by_date(symbol, '2014-08-10', '2014-08-15')
+            stock_data = self.qdl.get_stock_by_date(symbol, '2012-01-01', '2014-08-15')
             for data in stock_data:
                 self.update_stock_table(**data)
 
