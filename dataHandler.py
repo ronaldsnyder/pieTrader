@@ -42,6 +42,11 @@ class DataHandler:
         date += datetime.timedelta(days=1)
         return date
 
+    def get_one_year_ago(self):
+        date = datetime.date.today()
+        date += datetime.timedelta(days=-365)
+        return date
+
     def get_today(self):
         now = datetime.date.today()
         return now.strftime("%Y-%m-%d")
