@@ -2,6 +2,7 @@ __author__ = 'rsnyder'
 
 import sqlite3
 import quandl
+import datetime
 #purpose of this class is to get data and store it
 
 
@@ -10,12 +11,15 @@ class DataHandler:
     conn = None
     c = None
     qdl = None
+    today = None
 
     def __init__(self):
         self.last_update = ''
         self.conn = sqlite3.connect('data/pietrader.db')
         self.c = self.conn.cursor()
         self.qdl = quandl.Quandl()
+        now = datetime.date.today()
+        self.today = now.strftime("%Y-%m-%d")
 
     def __del__(self):
         self.conn.close()
@@ -33,7 +37,9 @@ class DataHandler:
     def get_last_update_date(self):
         results = self.c.execute('''SELECT MAX(date) from stock''')
         date = results.fetchone()
-        return date[0]
+        date = datetime.datetime.strptime(date[0], "%Y-%m-%d").date()
+        date += datetime.timedelta(days=1)
+        return date
 
     def update_stock_table(self, **kwargs):
         print "Adding stock data for: %s %s" % (kwargs["symbol"], kwargs["Date"])
