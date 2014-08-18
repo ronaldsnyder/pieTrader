@@ -12,14 +12,15 @@ class DataHandler:
     c = None
     qdl = None
     today = None
+    last_update = None
 
     def __init__(self):
         self.last_update = ''
         self.conn = sqlite3.connect('data/pietrader.db')
         self.c = self.conn.cursor()
         self.qdl = quandl.Quandl()
-        now = datetime.date.today()
-        self.today = now.strftime("%Y-%m-%d")
+        self.today = self.get_today()
+        self.last_update = self.get_last_update_date()
 
     def __del__(self):
         self.conn.close()
@@ -40,6 +41,10 @@ class DataHandler:
         date = datetime.datetime.strptime(date[0], "%Y-%m-%d").date()
         date += datetime.timedelta(days=1)
         return date
+
+    def get_today(self):
+        now = datetime.date.today()
+        return now.strftime("%Y-%m-%d")
 
     def update_stock_table(self, **kwargs):
         print "Adding stock data for: %s %s" % (kwargs["symbol"], kwargs["Date"])
