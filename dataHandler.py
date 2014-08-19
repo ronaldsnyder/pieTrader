@@ -20,7 +20,6 @@ class DataHandler:
         self.c = self.conn.cursor()
         self.qdl = quandl.Quandl()
         self.today = self.get_today()
-        self.last_update = self.get_last_update_date()
 
     def __del__(self):
         self.conn.close()
@@ -35,8 +34,8 @@ class DataHandler:
         self.c.execute('''DROP TABLE iF EXISTS stock''')
         self.conn.commit()
 
-    def get_last_update_date(self):
-        results = self.c.execute('''SELECT MAX(date) from stock''')
+    def get_last_update_date(self, symbol):
+        results = self.c.execute('''SELECT MAX(date) from stock WHERE symbol = ?''', (symbol,))
         date = results.fetchone()
         date = datetime.datetime.strptime(date[0], "%Y-%m-%d").date()
         date += datetime.timedelta(days=1)
@@ -76,9 +75,14 @@ class DataHandler:
             self.c.execute('INSERT INTO symbols (symbol) VALUES (?)', (symbol,))
         self.conn.commit()
 
-    def get_data_test(self, symbol):
-        results = self.c.execute('''SELECT * FROM symbols where symbol = ?''', (symbol,))
-        print results.fetchone()
+    def get_symbols(self):
+        symbols = self.c.execute('''SELECT symbol from symbols order by symbol DESC''')
+        return symbols.fetchall()
+
+    def get_data(self, symbol):
+        results = self.c.execute('''SELECT * FROM stock where symbol = ? ORDER by date ASC''',
+                                 (symbol,))
+        return results.fetchone()
 
     def init_load(self):
         #initial load of data to the table
@@ -100,14 +104,23 @@ class DataHandler:
 
         print "Retrieving stock info..."
         print "This may be a good time to read the documentation..."
+        last_year = self.get_one_year_ago()
         for symbol in symbols:
-            stock_data = self.qdl.get_stock_by_date(symbol, '2012-01-01', '2014-08-15')
+            stock_data = self.qdl.get_stock_by_date(symbol, last_year, self.today)
             for data in stock_data:
                 self.update_stock_table(**data)
 
         print "Initial Load Complete"
 
-
+    def load_updates(self, symbol):
+        last_update = self.get_last_update_date(symbol)
+        stock_data = self.qdl.get_stock_by_date(symbol, self.today, last_update,)
+        if stock_data:
+            for data in stock_data:
+                self.update_stock_table(**data)
+                print data
+        else:
+            print "No update for " + symbol
 
     def create_favorite_table(self):
         self.c.execute('''CREATE TABLE IF NOT EXISTS favorites

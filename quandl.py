@@ -33,15 +33,19 @@ class Quandl:
     def get_stock_by_date(self, symbol, start_date, end_date):
         stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?trim_start=%s&trim_end=%s%s" \
                     % (symbol, start_date, end_date, self.token)
+        print stock_url
         stock_json = urllib.urlopen(stock_url)
         stock_data = json.loads(stock_json.read())
-        keys = stock_data['column_names']
-        values = stock_data["data"]
-        stock_history = []
-        for value in values:
-            temp = dict(zip(keys, value))
-            temp['symbol'] = symbol
-            stock_history.append(temp)
+        if 'column_names' in stock_data:
+            keys = stock_data['column_names']
+            values = stock_data["data"]
+            stock_history = []
+            for value in values:
+                temp = dict(zip(keys, value))
+                temp['symbol'] = symbol
+                stock_history.append(temp)
+        else:
+            stock_history = []
         return stock_history
 
     def get_symbols(self):
