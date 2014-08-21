@@ -23,7 +23,11 @@ class Quandl:
                     % (symbol, self.token)
         stock_json = urllib.urlopen(stock_url)
         stock_data = json.loads(stock_json.read())
-        keys = stock_data['column_names']
+        keys = []
+        for key in stock_data['column_names']:
+            key = key.replace(" ", "")
+            key = key.replace(".", "")
+            keys.append(key)
         values = stock_data["data"][0]
         stock_dict = dict(zip(keys, values))
         stock_dict['symbol'] = symbol
@@ -37,7 +41,11 @@ class Quandl:
         stock_json = urllib.urlopen(stock_url)
         stock_data = json.loads(stock_json.read())
         if 'column_names' in stock_data:
-            keys = stock_data['column_names']
+            keys = []
+            for key in stock_data['column_names']:
+                key = key.replace(" ", "")
+                key = key.replace(".", "")
+                keys.append(key)
             values = stock_data["data"]
             stock_history = []
             for value in values:
