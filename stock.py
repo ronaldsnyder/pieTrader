@@ -7,18 +7,37 @@ class Stock:
     def __init__(self, symbol):
         self.qdl = quandl.Quandl()
         data = self.qdl.get_most_recent(symbol)
+        self.history = []
         if data:
             for key in data:
                 setattr(self, key, data[key])
-                print key
         else:
             print "No Data Found"
 
     def get_52_low(self):
-        pass
+        low = self.Open
+        low_record = []
+        #get history if it isn't loaded
+        if not self.history:
+            self.get_history()
+        for data in self.history:
+            if data["Open"] < low:
+                low = data["Open"]
+                low_record = data
+        return low_record
 
     def get_52_high(self):
-        pass
+        high = self.Open
+        high_record = []
+        #get history if it isn't loaded
+        if not self.history:
+            self.get_history()
+        for data in self.history:
+            if data["Open"] > high:
+                high = data["Open"]
+                high_record = data
+        return high_record
 
-    def get_last_update(self):
-        pass
+    def get_history(self):
+        self.history = self.qdl.get_stock_by_date(self.symbol, self.qdl.last_year, self.qdl.today)
+

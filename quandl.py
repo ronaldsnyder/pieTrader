@@ -3,11 +3,13 @@ __author__ = 'rsnyder'
 import urllib
 import json
 from ConfigParser import SafeConfigParser
-
+import datetime
 
 class Quandl:
 
     def __init__(self):
+        self.today = self.get_today()
+        self.last_year = self.get_one_year_ago()
         parser = SafeConfigParser()
         parser.read('pieTrader.config')
         if parser.has_section('quandl') & parser.has_option('quandl', 'token'):
@@ -37,7 +39,6 @@ class Quandl:
     def get_stock_by_date(self, symbol, start_date, end_date):
         stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?trim_start=%s&trim_end=%s%s" \
                     % (symbol, start_date, end_date, self.token)
-        print stock_url
         stock_json = urllib.urlopen(stock_url)
         stock_data = json.loads(stock_json.read())
         if 'column_names' in stock_data:
@@ -67,5 +68,16 @@ class Quandl:
             for symbol in symbols:
                 all_symbols.append(symbol["code"])
         return all_symbols
+
+    @staticmethod
+    def get_one_year_ago():
+        date = datetime.date.today()
+        date += datetime.timedelta(days=-365)
+        return date
+
+    @staticmethod
+    def get_today():
+        now = datetime.date.today()
+        return now.strftime("%Y-%m-%d")
 
 
