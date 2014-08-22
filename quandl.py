@@ -37,7 +37,7 @@ class Quandl:
 
     #function returns a list of dictionaries of stock data
     def get_stock_by_date(self, symbol, start_date, end_date):
-        stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?trim_start=%s&trim_end=%s%s" \
+        stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?trim_start=%s&trim_end=%s?sort_order=desc%s" \
                     % (symbol, start_date, end_date, self.token)
         stock_json = urllib.urlopen(stock_url)
         stock_data = json.loads(stock_json.read())

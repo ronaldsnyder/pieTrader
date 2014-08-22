@@ -6,8 +6,8 @@ class Stock:
 
     def __init__(self, symbol):
         self.qdl = quandl.Quandl()
-        data = self.qdl.get_most_recent(symbol)
-        self.history = []
+        self.history = self.qdl.get_stock_by_date(symbol, self.qdl.last_year, self.qdl.today)
+        data = self.history[0]
         if data:
             for key in data:
                 setattr(self, key, data[key])
