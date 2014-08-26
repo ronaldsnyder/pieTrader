@@ -31,7 +31,6 @@ class Stock:
     def get_52_high(self):
         high = self.Open
         high_record = []
-        #get history if it isn't loaded
         if self.history:
             for data in self.history:
                 if data["Open"] > high:
@@ -41,4 +40,14 @@ class Stock:
             high_record = 0
 
         return high_record
+
+    def get_52_average(self):
+        average = 0
+        if self.history:
+            for data in self.history:
+                average = average + data["Open"]
+            if len(self.history) > 0:
+                average /= len(self.history)
+        return average
+
 
