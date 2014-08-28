@@ -3,7 +3,7 @@ __author__ = 'rsnyder'
 import sqlite3
 import quandl
 
-class DataHandler:
+class DataHandler(object):
 
     conn = None
     c = None

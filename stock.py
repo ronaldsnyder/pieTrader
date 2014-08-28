@@ -6,13 +6,17 @@ class Stock:
 
     def __init__(self, symbol):
         self.qdl = quandl.Quandl()
-        self.history = self.qdl.get_stock_by_date(symbol, self.qdl.last_year, self.qdl.today)
-        data = self.history[0]
-        if data:
+        try:
+            self.history = self.qdl.get_stock_by_date(symbol, self.qdl.last_year, self.qdl.today)
+            data = self.history[0]
             for key in data:
                 setattr(self, key, data[key])
-        else:
-            print "No Data Found"
+        except:
+            print "Symbol is incorrect or could not communicate with Quandl"
+
+    def __str__(self):
+        print_string = "Ticker: " + self.symbol
+
 
     def get_52_low(self):
         low = self.Open

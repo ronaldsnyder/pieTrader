@@ -2,7 +2,8 @@ __author__ = 'rsnyder'
 
 from ConfigParser import SafeConfigParser
 
-class User():
+
+class User(object):
     def _init__(self):
         pass
 

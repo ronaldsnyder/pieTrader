@@ -5,7 +5,8 @@ import json
 from ConfigParser import SafeConfigParser
 import datetime
 
-class Quandl:
+
+class Quandl(object):
 
     def __init__(self):
         self.today = self.get_today()
