@@ -55,3 +55,4 @@ class Stock:
         return average
 
 
+

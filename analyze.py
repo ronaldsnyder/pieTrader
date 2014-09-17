@@ -19,10 +19,23 @@ def print_all_52_low():
 def favorites_52_low():
     lows = []
     for favorite in favorites:
-        print favorite
         mystock = stock.Stock(favorite)
         lows.append(mystock.get_52_low())
     return lows
+
+def print_all_52_high():
+    highs= []
+    for symbol in symbols:
+        mystock = stock.Stock(symbol[0])
+        highs.append(mystock.get_52_high())
+    return highs
+
+def favorites_52_high():
+    highs = []
+    for favorite in favorites:
+        mystock = stock.Stock(favorite)
+        highs.append(mystock.get_52_low())
+    return highs
 
 
 
