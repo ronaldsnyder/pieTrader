@@ -21,7 +21,7 @@ class Stock:
     def get_52_low(self):
         low = self.Open
         low_record = []
-
+        low_record = self.history[0]
         if self.history:
             for data in self.history:
                 if data["Open"] < low:
@@ -36,12 +36,13 @@ class Stock:
         high = self.Open
         high_record = []
         if self.history:
+            high_record = self.history[0]
             for data in self.history:
                 if data["Open"] > high:
                     high = data["Open"]
                     high_record = data
         else:
-            high_record = 0
+            high_record = self.history[0]
 
         return high_record
 
