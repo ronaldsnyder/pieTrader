@@ -9,6 +9,7 @@ class Stock:
         try:
             self.history = self.qdl.get_stock_by_date(symbol, self.qdl.last_year, self.qdl.today)
             data = self.history[0]
+            #for each key in the json set it as an attribute of the object.
             for key in data:
                 setattr(self, key, data[key])
         except:

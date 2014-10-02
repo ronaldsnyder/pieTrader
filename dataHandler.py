@@ -2,6 +2,7 @@ __author__ = 'rsnyder'
 
 import sqlite3
 import quandl
+import os
 
 class DataHandler(object):
 
@@ -10,7 +11,9 @@ class DataHandler(object):
     qdl = None
 
     def __init__(self):
-        self.conn = sqlite3.connect('data/pietrader.db')
+        db_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + "data" + os.sep + "pietrader.db"
+        #self.conn = sqlite3.connect('data/pietrader.db')
+        self.conn = sqlite3.connect(db_path)
         self.c = self.conn.cursor()
         self.qdl = quandl.Quandl()
 

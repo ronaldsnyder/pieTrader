@@ -1,11 +1,12 @@
 __author__ = 'rsnyder'
 
 from ConfigParser import SafeConfigParser
+from stock import Stock
 
 
 class User(object):
     def _init__(self):
-        pass
+        self.favorites = self.get_favorites();
 
     def get_favorites(self):
         favorites = []
