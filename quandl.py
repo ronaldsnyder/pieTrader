@@ -6,13 +6,16 @@ from ConfigParser import SafeConfigParser
 import datetime
 import os
 
-
+#class for getting and parsing data from Quandl
 class Quandl(object):
 
     def __init__(self):
+        #get the dates for calculations
         self.today = self.get_today()
         self.last_year = self.get_one_year_ago()
+        #set the path of the config file
         config_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + "pieTrader.config"
+        #read config file for options
         parser = SafeConfigParser()
         parser.read(config_path)
         parser = SafeConfigParser()
@@ -24,7 +27,7 @@ class Quandl(object):
                   Get an API key at http://www.quandl.com/users/sign_up"
             self.token = ''
 
-    #returns a dictionary of the most recent stock data
+    #returns a dictionary of the most recent stock data, takes stock symbol as input
     def get_most_recent(self, symbol):
         stock_url = "http://www.quandl.com/api/v1/datasets/WIKI/%s.json?sort_order=desc%s" \
                     % (symbol, self.token)
@@ -62,6 +65,7 @@ class Quandl(object):
             stock_history = []
         return stock_history
 
+    #get all the symbols, caution this will take a while, it has to loop through 11 pages
     def get_symbols(self):
         all_symbols = []
         for page in range(1, 12):
@@ -74,12 +78,14 @@ class Quandl(object):
                 all_symbols.append(symbol["code"])
         return all_symbols
 
+    #return the date of 365 days ago
     @staticmethod
     def get_one_year_ago():
         date = datetime.date.today()
         date += datetime.timedelta(days=-365)
         return date
 
+    #returns todays date
     @staticmethod
     def get_today():
         now = datetime.date.today()

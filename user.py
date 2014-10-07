@@ -3,11 +3,13 @@ __author__ = 'rsnyder'
 from ConfigParser import SafeConfigParser
 from stock import Stock
 
-
+#user is for getting favorites
+#should we include favorite functions in user class instead of in analyze.py?
 class User(object):
     def _init__(self):
         pass
 
+    #returns a list of favorites in pieTrader.config
     def get_favorites(self):
         favorites = []
         parser = SafeConfigParser()

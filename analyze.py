@@ -3,12 +3,14 @@ import stock
 import dataHandler
 import user
 
+#general functions for analyzing stock data
 dh = dataHandler.DataHandler()
 user = user.User()
 dh.init_load()
 symbols = dh.get_symbols()
 favorites = user.get_favorites()
 
+#returns a list containing a dictionary for each stocks 52 week low
 def print_all_52_low():
     lows = []
     for symbol in symbols:
@@ -16,6 +18,7 @@ def print_all_52_low():
         lows.append(mystock.get_52_low())
     return lows
 
+#returns a list containing a dictionary for each favorites 52 week low
 def favorites_52_low():
     lows = []
     for favorite in favorites:
@@ -23,6 +26,7 @@ def favorites_52_low():
         lows.append(mystock.get_52_low())
     return lows
 
+#returns a list containing a dictionary for each stocks 52 week high
 def print_all_52_high():
     highs = []
     for symbol in symbols:
@@ -30,6 +34,7 @@ def print_all_52_high():
         highs.append(mystock.get_52_high())
     return highs
 
+#returns a list containing a dictionary for each favorite 52 week low
 def favorites_52_high():
     highs = []
     for favorite in favorites:
@@ -37,6 +42,7 @@ def favorites_52_high():
         highs.append(mystock.get_52_high())
     return highs
 
+#returns a list containing a dictionary for each favorites average price
 def favorites_52_average():
     average = []
     for favorite in favorites:
@@ -48,7 +54,7 @@ def favorites_52_average():
     return average
 
 
-
+#functions to print stock data, used in pieTrader.py
 def pretty_print(mystock):
     print "\n"
     print mystock["symbol"] + "\t" + str(mystock["Open"]) + " \t" + str(mystock["Date"])
