@@ -13,7 +13,7 @@ The config file also lets you set favorites to analyze.  Enter the symbols separ
 
 <h5>pieTrader.py</h5>
 <p>
-The pieTrader.py file is a command line version of the project.  This will work best with the Quandl API setup and a list of favorite stock symbols set up in pieTrader.config
+The pieTrader.py file is a command line script for analyzing stocks and any favorites that are setup. To get the most out of this make sure you have a Quandl API Key and favorites setup in the pieTrader.config file.
 </p>
 
 <hr>
