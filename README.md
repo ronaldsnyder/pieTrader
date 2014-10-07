@@ -3,7 +3,7 @@ pieTrader
 
 Python Stock Analyzer using Quandl
 
-<h4>pieTrader.config</h4>
+<h5>pieTrader.config</h5>
 <p>
 There is an example config located in the project directory.  Rename that file to pieTrader.config.  To get the most out of this you can sign up for a Quandl API key at http://www.quandl.com/users/sign_up
 </p>
@@ -11,4 +11,18 @@ There is an example config located in the project directory.  Rename that file t
 The config file also lets you set favorites to analyze.  Enter the symbols separated by commas.
 </p>
 
+<h5>pieTrader.py</h5>
+<p>
+The pieTrader.py file is a command line version of the project.  This will work best with the Quandl API setup and a list of favorite stock symbols set up in pieTrader.config
+</p>
+
+<hr>
+<h5>Files</h5>
+  <ul>
+    <li>analyze.py - functions to help analyze stocks and favorites</li>
+    <li>dataHandler.py - DataHandler class to handle getting symbols from Quandl</li>
+    <li>quandl.py - Quandl class that handles getting JSON data from Quandl and parsing it</li>
+    <li>stock.py - Stock class that contains general stock information</li>
+    <li>user.py - User class that handles user specific data like favorites</li>
+  </ul>
 
