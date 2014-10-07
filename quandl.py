@@ -4,6 +4,7 @@ import urllib
 import json
 from ConfigParser import SafeConfigParser
 import datetime
+import os
 
 
 class Quandl(object):
@@ -11,6 +12,9 @@ class Quandl(object):
     def __init__(self):
         self.today = self.get_today()
         self.last_year = self.get_one_year_ago()
+        config_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + "pieTrader.config"
+        parser = SafeConfigParser()
+        parser.read(config_path)
         parser = SafeConfigParser()
         parser.read('pieTrader.config')
         if parser.has_section('quandl') & parser.has_option('quandl', 'token'):

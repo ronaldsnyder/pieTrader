@@ -9,8 +9,6 @@ def main_menu():
     print "1. Print Favorite 52 Week Lows"
     print "2. Print Favorite 52 Week High"
     print "3. Print Favorite 52 Week Average"
-    print "4. Print Favorites at 52 Week Low"
-    print "5. Print Favorites at 52 Week High"
     print "6. Analyze a specific stock"
     print "0. Quit Application"
 

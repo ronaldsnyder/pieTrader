@@ -6,7 +6,7 @@ from stock import Stock
 
 class User(object):
     def _init__(self):
-        self.favorites = self.get_favorites();
+        pass
 
     def get_favorites(self):
         favorites = []
